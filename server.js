@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const usersRoute = require("./routes/api/users");
-const profilesRoute = require("./routes/api/profiles");
-const postsRoute = require("./routes/api/posts");
+const bodyParser = require("body-parser");
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // DB Config
 const db = require("./config/keys").mongoURI;
@@ -18,6 +19,11 @@ mongoose
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
+
+// Routers
+const usersRoute = require("./routes/api/users");
+const profilesRoute = require("./routes/api/profiles");
+const postsRoute = require("./routes/api/posts");
 
 // Get Routes
 app.use("/api/users", usersRoute);
