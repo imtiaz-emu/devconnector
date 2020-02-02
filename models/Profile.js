@@ -22,6 +22,11 @@ const ProfileSchema = new Schema({
   github: {
     type: String
   },
+  slug: {
+    type: String,
+    required: true,
+    max: 40
+  },
   skills: [String],
   experience: [
     {
