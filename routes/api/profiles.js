@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const validateProfileInputs = require("../../validations/profile");
 
 // Load Models
 const Profile = require("../../models/Profile");
@@ -43,7 +44,11 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const errors = {};
+    const { errors, isValid } = validateProfileInputs(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     const profileFields = {};
     profileFields.user = req.user.id;
     if (req.body.slug) profileFields.slug = req.body.slug;
